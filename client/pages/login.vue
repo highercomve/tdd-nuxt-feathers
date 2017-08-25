@@ -2,7 +2,6 @@
   <div class="container">
     <TopHeader title="Login" v-bind:renderer="renderer" />
     <section class="column is-half">
-      <p>render from {{ renderer }}</p>
       <p v-if="error" class="help is-danger">
         {{error}}
       </p>

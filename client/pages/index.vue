@@ -14,7 +14,12 @@ export default {
     TopHeader
   },
   fetch ({ store, params }) {
-    return store.dispatch('messages/fetchAll')
+    /*
+      On pages you can wait for fecth and action
+      Example:
+
+      return store.dispatch('messages/fetchAll') // this must be aa action that return a promise
+    */
   },
   asyncData ({ req }) {
     return {
