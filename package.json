@@ -22,11 +22,22 @@
     "yarn": ">= 0.18.0"
   },
   "scripts": {
+    "test": "ava",
     "build": "nuxt build",
     "dev": "DEBUG=nuxt:* nodemon --watch server/ --watch config/ server/index.js",
     "prestart": "npm run build",
     "start": "NODE_ENV=production node server/",
     "nuxt": "nuxt"
+  },
+  "ava": {
+    "require": [
+      "babel-register"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
   },
   "dependencies": {
     "axios": "^0.16.2",
@@ -60,6 +71,9 @@
     "winston": "^2.3.1"
   },
   "devDependencies": {
+    "ava": "^0.22.0",
+    "jsdom": "^11.2.0",
+    "nyc": "^11.1.0",
     "eslint": "^4.5.0",
     "mocha": "^3.5.0",
     "node-sass": "^4.5.3",
