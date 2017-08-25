@@ -10,15 +10,12 @@ module.exports = function () {
 
     // Use Nuxt's render middleware
     app.use((req, res, next) => {
-      switch (req.accepts('html', 'json')) {
-        case 'json':
+      switch (req.headers['content-type']) {
+        case 'application/json':
           next();
           break;
         default:
           nuxt.render(req, res, next);
       }
     });
-
-    app.use(notFound());
-    app.use(handler());
 };

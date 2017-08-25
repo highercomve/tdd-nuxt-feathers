@@ -20,7 +20,11 @@
     ],
     "semi": [
       "error",
-      "always"
+      "never"
+    ],
+    "comma-dangle": [
+      "error",
+      "never"
     ]
   }
 }

@@ -1,14 +1,22 @@
 <template>
-  <div>
-    <h1>Home</h1>
-    <p>This was rendered by the {{ renderer }}</p>
-    <nuxt-link to="/about">About</nuxt-link>
-  </div>
+  <section class="container">
+    <TopHeader title="Lobby" v-bind:renderer="renderer" />
+    <Messages />
+  </section>
 </template>
 
 <script>
+import TopHeader from '~/components/TopHeader.vue'
+
 export default {
-  asyncData ({req}) {
+  middleware: 'authenticated',
+  components: {
+    TopHeader
+  },
+  fetch ({ store, params }) {
+    return store.dispatch('messages/fetchAll')
+  },
+  asyncData ({ req }) {
     return {
       renderer: req ? 'server' : 'client',
     }

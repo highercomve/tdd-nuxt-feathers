@@ -1,14 +1,17 @@
 <template>
-  <div>
-    <h1>About</h1>
-    <p>This was rendered by the {{ renderer }}</p>
-    <nuxt-link to="/">Home</nuxt-link>
-  </div>
+  <section class="container">
+    <TopHeader title="About" v-bind:renderer="renderer" />
+  </section>
 </template>
 
 <script>
+import TopHeader from '~/components/TopHeader.vue'
+
 export default {
-  asyncData ({req}) {
+  components: {
+    TopHeader
+  },
+  asyncData ({ req }) {
     return {
       renderer: req ? 'server' : 'client',
     }
