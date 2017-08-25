@@ -26,10 +26,12 @@ export const actions = {
 
 const getAndSetUser = ({commit}) => (token) => {
   if (!token) { return Promise.reject('Token is ivalid') }
-  setToken(token.accessToken)
-  commit('setJwt', token.accessToken)
   return client.passport.verifyJWT(token.accessToken)
   .then(payload => {
+    setToken(token.accessToken)
+    return commit('setJwt', token.accessToken)
+  })
+  .then(() => {
     return client.service('users').get(payload.userId);
   })
   .then(user => {
@@ -38,7 +40,7 @@ const getAndSetUser = ({commit}) => (token) => {
   })
   .catch(error => {
     console.error('Error authenticating!', error);
-    return Promise.reject(error)
+    return Promise.resolve(error)
   })
 }
 
