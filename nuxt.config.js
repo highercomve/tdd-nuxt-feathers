@@ -1,15 +1,15 @@
 const path = require('path');
 
 module.exports = {
+  rootDir: path.resolve(__dirname),
+  dev: process.env.NODE_ENV !== 'production',
+  srcDir: 'client/',
   loading: {
       color: '#92D3CE',
   },
   router: {
     middleware: 'check-auth'
   },
-  rootDir: path.resolve(__dirname),
-  dev: process.env.NODE_ENV !== 'production',
-  srcDir: 'client/',
   plugins: [
     {src: '~plugins/feathers', ssr: false}
   ],
@@ -20,6 +20,9 @@ module.exports = {
   build: {
     vendor: ['axios']
   },
+  modules: [
+    '@nuxtjs/bulma'
+  ],
   css: [
     // Load a node module directly (here it's a SASS file)
     'bulma',

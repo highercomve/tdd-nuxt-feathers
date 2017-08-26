@@ -22,7 +22,7 @@
     "yarn": ">= 0.18.0"
   },
   "scripts": {
-    "test": "ava",
+    "test": "ava -v",
     "build": "nuxt build",
     "dev": "DEBUG=nuxt:* nodemon --watch server/ --watch config/ server/index.js",
     "prestart": "npm run build",
@@ -32,7 +32,8 @@
   "ava": {
     "require": [
       "babel-register"
-    ]
+    ],
+    "playbacks": "fixtures"
   },
   "babel": {
     "presets": [
@@ -40,6 +41,7 @@
     ]
   },
   "dependencies": {
+    "@nuxtjs/bulma": "^1.0.2",
     "axios": "^0.16.2",
     "body-parser": "^1.17.2",
     "bulma": "^0.5.1",
@@ -72,12 +74,14 @@
   },
   "devDependencies": {
     "ava": "^0.22.0",
-    "jsdom": "^11.2.0",
-    "nyc": "^11.1.0",
+    "ava-playback": "^0.0.12",
+    "ava-spec": "^1.1.0",
     "eslint": "^4.5.0",
+    "jsdom": "^11.2.0",
     "mocha": "^3.5.0",
     "node-sass": "^4.5.3",
     "nodemon": "^1.11.0",
+    "nyc": "^11.1.0",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
     "sass-loader": "^6.0.6"

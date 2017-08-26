@@ -2,16 +2,14 @@
   <div>
     <nav class="navbar ">
       <div class="navbar-brand">
-        <a class="navbar-item">
-          <Logo />
-        </a>
+        <nuxt-link class="navbar-item" to="/"><Logo /></nuxt-link>
       </div>
       <div class="navbar-menu">
         <div class="navbar-start">
           <div class="navbar-item">
-            <nuxt-link class="navbar-link" to="/">Lobby</nuxt-link>
-            <nuxt-link class="navbar-link" to="/about">About</nuxt-link>
-            <nuxt-link class="navbar-link" to="/login">Login</nuxt-link>
+            <nuxt-link class="navbar-item" to="/">Lobby</nuxt-link>
+            <nuxt-link class="navbar-item" to="/about">About</nuxt-link>
+            <nuxt-link class="navbar-item" to="/login">Login</nuxt-link>
           </div>
         </div>
       </div>

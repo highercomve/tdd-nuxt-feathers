@@ -25,23 +25,21 @@ export const actions = {
 }
 
 const getAndSetUser = ({commit}) => (token) => {
-  if (!token) { return Promise.reject('Token is ivalid') }
+  if (!token || !token.accessToken || token.accessToken === '') { return Promise.resolve('Token is ivalid') }
   return client.passport.verifyJWT(token.accessToken)
-  .then(payload => {
-    setToken(token.accessToken)
-    return commit('setJwt', token.accessToken)
-  })
-  .then(() => {
-    return client.service('users').get(payload.userId);
-  })
-  .then(user => {
-    client.set('user', user)    
-    return commit('setUser', user)        
-  })
-  .catch(error => {
-    console.error('Error authenticating!', error);
-    return Promise.resolve(error)
-  })
+    .then(payload => {
+      setToken(token.accessToken)
+      commit('setJwt', token.accessToken)
+      return client.service('users').get(payload.userId);
+    })
+    .then(user => {
+      client.set('user', user)    
+      return commit('setUser', user)        
+    })
+    .catch(error => {
+      console.error('Error authenticating!', error);
+      return Promise.resolve(error)
+    })
 }
 
 export const mutations = {
