@@ -1,11 +1,9 @@
-import { describe } from 'ava-spec'
 import test from 'ava'
-import { initializeServer, closeServer, getNuxt } from '../nuxt_test_init'
+import { describe } from 'ava-spec'
+import { initializeServer, closeServer, getNuxt } from './helpers/_nuxt_test_init'
 
 // Init Nuxt.js and create a server listening on localhost:4000
-test.before('Init Nuxt.js', async t => {
-  return await initializeServer()
-})
+test.before('Init Nuxt.js', initializeServer)
 
 // Example of testing only generated html
 describe('Test home route', it => {
@@ -22,6 +20,4 @@ describe('Test home route', it => {
 })
 
 // Close server and ask nuxt to stop listening to file changes
-test.after('Closing server and nuxt.js',  async t => {
-  return await closeServer()
-})
+test.after('Closing server and nuxt.js', closeServer)

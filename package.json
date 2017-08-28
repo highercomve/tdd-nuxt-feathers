@@ -27,13 +27,17 @@
     "dev": "DEBUG=nuxt:* nodemon --watch server/ --watch config/ server/index.js",
     "prestart": "npm run build",
     "start": "NODE_ENV=production node server/",
-    "nuxt": "nuxt"
+    "report": "nyc report --reporter=html"
   },
   "ava": {
+    "files": [
+			"test/**/*.js",
+			"!test/helpers/**/_*.js"
+		],
     "require": [
       "babel-register"
     ],
-    "playbacks": "fixtures"
+    "playbacks": "./fixtures"
   },
   "babel": {
     "presets": [
