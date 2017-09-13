@@ -38,34 +38,24 @@
 <script>
 import TopHeader from '~/components/TopHeader.vue'
 
+function mapValueToStore (obj, field) {
+  obj[field] = {
+    get () { return this.$store.state.auth.loginData[field]; },
+    set (value) { return this.$store.commit('auth/setLoginData', { [field]: value }); }
+  }
+  return obj;
+}
+
 export default {
   components: {
     TopHeader
   },
-  data: () => {
-    return {
-      email: '',
-      password: '',
-      error: null,
-      message: null
-    }
+  computed: {
+    ...['email', 'password', 'error', 'loading'].reduce(mapValueToStore, {})
   },
   methods: {
     create () {
-      this.$store.dispatch('users/authenticate', { email: this.email, password: this.password })
-      .then(() => {
-        this.email = ''
-        this.password = ''
-        this.$router.go('/')
-      })
-      .catch(error => {
-        console.log(error)
-        if (!!error && !!error.data && !!error.data.message) {
-          this.error = error.data.message                    
-        } else {
-          this.error = error          
-        }
-      })
+      this.$store.dispatch('auth/authenticate');
     }
   },
   asyncData ({ req }) {

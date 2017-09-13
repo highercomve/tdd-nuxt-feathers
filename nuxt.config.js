@@ -5,7 +5,7 @@ module.exports = {
   dev: process.env.NODE_ENV !== 'production',
   srcDir: 'client/',
   loading: {
-      color: '#92D3CE',
+    color: '#92D3CE',
   },
   router: {
     middleware: 'check-auth'

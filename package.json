@@ -31,9 +31,9 @@
   },
   "ava": {
     "files": [
-			"test/**/*.js",
-			"!test/helpers/**/_*.js"
-		],
+      "test/**/*.js",
+      "!test/helpers/**/_*.js"
+    ],
     "require": [
       "babel-register"
     ],
@@ -68,10 +68,12 @@
     "helmet": "^3.8.1",
     "js-cookie": "^2.1.4",
     "localstorage-memory": "^1.0.2",
+    "lodash.clonedeep": "^4.5.0",
     "nedb": "^1.8.0",
     "nuxt": "^1.0.0-rc6",
     "rxjs": "^5.4.3",
     "serve-favicon": "^2.4.3",
+    "ubiome-auth": "^1.0.1",
     "vue-feathers": "^0.1.0",
     "vuex": "^2.3.1",
     "winston": "^2.3.1"
@@ -81,6 +83,12 @@
     "ava-playback": "^0.0.12",
     "ava-spec": "^1.1.0",
     "eslint": "^4.5.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "eslint-plugin-vue": "@beta",
     "jsdom": "^11.2.0",
     "mocha": "^3.5.0",
     "node-sass": "^4.5.3",

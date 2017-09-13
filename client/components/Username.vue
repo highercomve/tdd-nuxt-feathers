@@ -6,9 +6,7 @@
 import { mapState } from 'vuex'
 export default {
   computed: mapState({
-    email: state => {
-      return state.users.data.email
-    }
+    email: state => state.auth.user.email
   }),
 }
 </script>

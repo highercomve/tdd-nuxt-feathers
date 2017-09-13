@@ -2,9 +2,17 @@
   "env": {
     "es6": true,
     "node": true,
-    "mocha": true
+    "mocha": true,
+    "browser": true
   },
-  "extends": "eslint:recommended",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2017
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:vue/recommended"
+  ],
   "rules": {
     "indent": [
       "error",
@@ -20,11 +28,7 @@
     ],
     "semi": [
       "error",
-      "never"
-    ],
-    "comma-dangle": [
-      "error",
-      "never"
+      "always"
     ]
   }
 }

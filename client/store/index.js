@@ -1,16 +1,13 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import createLogger from 'vuex/dist/logger'
-import client from '@/plugins/feathers'
+import createLogger from 'vuex/dist/logger';
 
-export const plugins = []
+export const plugins = [];
 
 if (process.browser) {
-  plugins.push(createLogger())
+  plugins.push(createLogger());
 }
 
-export const state = () => ({})
+export const state = () => ({});
 
-export const actions = {}
+export const actions = {};
 
-export const mutations = {}
+export const mutations = {};

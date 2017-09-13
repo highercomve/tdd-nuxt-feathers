@@ -10,6 +10,6 @@ process.on('unhandledRejection', (reason, p) =>
 );
 
 server.on('listening', () => {
-  nuxt.showOpen()
-  logger.info(`Feathers application started on ${app.get('host')}:${port}`)
+  nuxt.showOpen();
+  logger.info(`Feathers application started on ${app.get('host')}:${port}`);
 });

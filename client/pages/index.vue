@@ -1,7 +1,6 @@
 <template>
   <section class="container">
     <TopHeader title="Lobby" v-bind:renderer="renderer" />
-    <Messages />
   </section>
 </template>
 
