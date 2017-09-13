@@ -31,18 +31,13 @@
   },
   "ava": {
     "files": [
-      "test/**/*.js",
-      "!test/helpers/**/_*.js"
+      "./test/**/*.test.js"
     ],
     "require": [
-      "babel-register"
+      "babel-polyfill"
     ],
-    "playbacks": "./fixtures"
-  },
-  "babel": {
-    "presets": [
-      "es2015"
-    ]
+    "playbacks": "./fixtures",
+    "babel": "inherit"
   },
   "dependencies": {
     "@nuxtjs/bulma": "^1.0.2",
@@ -82,6 +77,10 @@
     "ava": "^0.22.0",
     "ava-playback": "^0.0.12",
     "ava-spec": "^1.1.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "browser-env": "^3.2.0",
     "eslint": "^4.5.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.7.0",
@@ -96,6 +95,9 @@
     "nyc": "^11.1.0",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
+    "require-extension-hooks": "^0.3.0",
+    "require-extension-hooks-babel": "^0.1.1",
+    "require-extension-hooks-vue": "^0.4.0",
     "sass-loader": "^6.0.6"
   }
 }
