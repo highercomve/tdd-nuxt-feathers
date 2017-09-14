@@ -4,6 +4,6 @@ import mount from '../helpers/vue.helpers';
 import * as AuthStore from '../../src/components/store.babel';
 
 test('Renders', t => {
-  const { vm } = mount(Auth, AuthStore);
+  const { vm } = mount(Auth, AuthStore.default(() => {}, () => {}, () => {}));
   t.is(vm.$el.textContent.trim(), 'Your component created with unicorn CLI');
 });
