@@ -1,4 +1,5 @@
 const ERROR_INVALID_PARAMETERS_ON_FACTORY = 'The store factory need add login function, signup function and getProfile function';
+const ERROR_INVALID_CREDENTIALS = 'invalid credentials'
 
 export default function factory (loginFunc , signupFunc, getProfileFunc) {
   if (typeof loginFunc !== 'function' || typeof signupFunc !== 'function' || typeof getProfileFunc !== 'function') {
@@ -48,6 +49,13 @@ export default function factory (loginFunc , signupFunc, getProfileFunc) {
   function authenticate ({ commit, state }) {
     return new Promise((resolve, reject) => {
       commit('setLoginData', { loading: true });
+      const email = state.loginData.email;
+      const password = state.loginData.password;
+
+      if (email === '' || password === '') {
+        commit('setLoginData', {error: ERROR_INVALID_CREDENTIALS, loading: false});
+        return reject(new Error(ERROR_INVALID_CREDENTIALS));
+      }
       return loginFunc(state.loginData.email, state.loginData.password)
         .then((jwt) => {
           commit('setLoginData', intitialState().loginData);

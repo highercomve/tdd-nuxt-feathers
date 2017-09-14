@@ -40,7 +40,7 @@ const storeMock = AuthStore.default(
 test('Renders', t => {
   const store = AuthStore.default(() => {}, () => {}, () => {});
   const { vm } = mount(Login, store);
-  t.is(vm.$el.textContent.trim(), 'Your component created with unicorn CLI');
+  t.is(vm.$el.textContent.trim(), 'Login');
 });
 
 test('Login need email and password', async t => {
@@ -52,22 +52,38 @@ test('Login need email and password', async t => {
     'bubbles'    : true, // Whether the event will bubble up through the DOM or not
     'cancelable' : true  // Whether the event may be canceled or not
   });
+  const changeEvnt = new window.Event('input', {
+    'bubbles'    : true, // Whether the event will bubble up through the DOM or not
+    'cancelable' : true  // Whether the event may be canceled or not
+  });
   emailInput.value = USER_DATA.email;
-
-  form.dispatchEvent(event);
-  
+  emailInput.dispatchEvent(changeEvnt);
   await Vue.nextTick()
     .then(() => {
-      t.not(vm.$store.state.loginData.error, null);
-      t.is(vm.$el.textContent.trim(), 'Login');
       t.deepEqual(vm.$store.state.user, {});
-      passwordInput.value = 'password';
+      t.is(vm.$store.state.jwt, '');
+      t.is(vm.$el.textContent.trim(), 'Login');
+
+      form.dispatchEvent(event);
+      return Vue.nextTick();
+    })
+    .then(() => {
+      t.is(vm.$store.state.loginData.email, USER_DATA.email);
+      t.not(vm.$store.state.loginData.error, null);
+      t.deepEqual(vm.$store.state.user, {});
+      passwordInput.value = USER_DATA.password;
+      passwordInput.dispatchEvent(changeEvnt);
+      return Vue.nextTick();
+    })
+    .then(() => {
+      form.dispatchEvent(event);
       return Vue.nextTick();
     })
     .then(() => {
       t.is(vm.$store.state.loginData.error, null);
-      t.is(vm.$store.state.user.email, USER_DATA.email);
-      t.is(vm.$store.state.user.password, USER_DATA.password);
-      t.is(vm.$store.state.user.name, USER_DATA.name);
+      t.deepEqual(vm.$store.state.user, {
+        ...USER_DATA,
+        user_id: 'user_id'
+      });
     });
 });

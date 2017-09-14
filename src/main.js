@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import {mapState} from 'vuex';
 // Import every subcomponent here
 import Login from './components/login.vue';
 import * as AuthStore from './components/store.babel';
@@ -46,8 +47,16 @@ const storeMock = AuthStore.default(
 const store = new Vuex.Store(storeMock);
 
 new Vue({
+  store,
   el: '#app',
-  template: '<Login/>',
+  template: `
+    <div>
+      <p>The state is: {{state}}</p>
+      <Login/>
+    </div>
+  `,
   components: { Login },
-  store
+  computed: mapState({
+    state: (state) => state
+  })
 });
