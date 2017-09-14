@@ -1,0 +1,15 @@
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+const intitialState = () => {
+  return Object.assign({})
+}
+export const plugins = []
+
+export const state = intitialState
+
+export const actions = {}
+
+export const mutations = {}
+
+export const getters = {}

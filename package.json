@@ -1,0 +1,67 @@
+{
+	"name": "auth",
+	"description": "",
+	"version": "0.0.0",
+	"homepage": "",
+	"main": "dist/build.js",
+	"keywords": [],
+	"author": {
+		"name": "Sergio marin",
+		"email": "higher.vnf@gmail.com"
+	},
+	"contributors": [],
+	"bugs": {},
+	"directories": {
+		"lib": "src",
+		"test": "test/"
+	},
+	"engines": {
+		"node": ">= 6.0.0",
+		"yarn": ">= 0.18.0"
+	},
+	"scripts": {
+		"test": "ava -v",
+		"coverage": "nyc ava -v",
+		"pretest": "npm run eslint",
+		"eslint": "eslint src/. test/. --config .eslintrc.json --fix"
+	},
+	"ava": {
+		"require": [
+			"./test/helpers/setup.js",
+			"babel-polyfill"
+		],
+		"babel": "inherit"
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"ava": "^0.22.0",
+		"babel-cli": "^6.26.0",
+		"babel-core": "^6.26.0",
+		"babel-jest": "^21.0.2",
+		"babel-loader": "^7.1.2",
+		"babel-plugin-transform-object-rest-spread": "^6.26.0",
+		"babel-polyfill": "^6.26.0",
+		"babel-preset-env": "^1.6.0",
+		"browser-env": "^3.2.0",
+		"cross-env": "^5.0.5",
+		"css-loader": "^0.28.7",
+		"eslint": "^4.6.1",
+		"eslint-plugin-vue": "^3.13.0",
+		"file-loader": "^0.11.2",
+		"js-beautify": "^1.6.14",
+		"node-sass": "^4.5.3",
+		"nyc": "^11.2.1",
+		"require-extension-hooks": "^0.3.0",
+		"require-extension-hooks-babel": "^0.1.1",
+		"require-extension-hooks-vue": "^0.4.0",
+		"sass-loader": "^6.0.6",
+		"vue": "^2.4.3",
+		"vue-loader": "^13.0.4",
+		"vue-server-renderer": "^2.4.3",
+		"vue-template-compiler": "^2.4.3",
+		"vue-template-es2015-compiler": "^1.5.3",
+		"vuex": "^2.4.0",
+		"webpack": "^3.5.6",
+		"webpack-dev-server": "^2.8.1"
+	}
+}

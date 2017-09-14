@@ -12,6 +12,8 @@ lib-cov
 
 # Coverage directory used by tools like istanbul
 coverage
+
++# Coverage files and directory used by tools like istanbul or nyc
 .nyc_output
 
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
@@ -108,7 +110,9 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Nuxt
+.nuxt
+
 # Others
 lib/
 data/
-.nuxt
