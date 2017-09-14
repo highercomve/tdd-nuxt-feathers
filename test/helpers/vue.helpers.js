@@ -23,9 +23,7 @@ export default function mount(Component, Store) {
       ...Store,
       state: Store.state()
     });
-    const vm = new Constructor({
-      store
-    }).$mount();
+    const vm = new Constructor({ store }).$mount();
 
     return { vm, store };
   } else {

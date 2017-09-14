@@ -27,4 +27,3 @@ export default {
   }
 }
 </script>
-<style src="./styles.scss"></style>
