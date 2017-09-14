@@ -9,25 +9,101 @@ export default function factory (loginFunc , signupFunc, getProfileFunc) {
     state: intitialState,
     actions: {
       authenticate,
-      updateJwt
+      updateJwt,
+      setJwtAndGetUser,
+      createAccount,
+      logout
     },
-    mutations: {},
+    mutations: {
+      setJwt,
+      setUser,
+      setLoginData,
+      setSignupData
+    },
     getters: {}
   };
 
+  // MUTATIONS
+  function setJwt (state, jwt) {
+    jwt = (jwt !== null) ? jwt : intitialState().jwt;
+    state.jwt = jwt;
+  }
+  
+  function setUser (state, user) {
+    user = (user !== null) ? user : intitialState().user;
+    Object.assign(state.user, user);
+  }
+
+  function setLoginData (state, data) {
+    data = (data !== null) ? data : intitialState().loginData;
+    Object.assign(state.loginData, data);
+  }
+
+  function setSignupData (state, data) {
+    data = (data != null) ? data : intitialState().signupData;    
+    Object.assign(state.signupData, data);
+  }
+
+  // ACTIONS
   function authenticate ({ commit, state }) {
-    return loginFunc(state.loginData.email, state.loginData.password)
-      .then((jwt) => {
-        commit('setLoginData', intitialState().loginData);
-        return commit('setJwt', jwt);
-      })
-      .catch((error) => {
-        commit('setLoginData', { error: error.message || error });
-      });
+    return new Promise((resolve, reject) => {
+      commit('setLoginData', { loading: true });
+      return loginFunc(state.loginData.email, state.loginData.password)
+        .then((jwt) => {
+          commit('setLoginData', intitialState().loginData);
+          commit('setJwt', jwt);
+          resolve(jwt);
+        })
+        .catch((error) => {
+          const message = (error && error.message) ? error.message : error;
+          commit('setLoginData', { loading: false, error: message });
+          reject(error);
+        });
+    });
   }
   
   function updateJwt ({ commit }, token) {
     return Promise.resolve(commit('setJwt', token));
+  }
+
+  function setJwtAndGetUser ({ commit }, token = null) {
+    commit('setJwt', token);
+    return getProfileFunc(token)
+      .then((user) => {
+        return commit('setUser', user);
+      });
+  }
+
+  function createAccount ({ commit, state, dispatch }) {
+    return new Promise((resolve, reject) => {
+      commit('setSignupData', { loading: true });
+      const data = {
+        name: state.signupData.name,
+        email: state.signupData.email,
+        password: state.signupData.password
+      };
+      const loginData = {
+        email: state.signupData.email,
+        password: state.signupData.password
+      };
+      return signupFunc(data)
+        .then(user => commit('setUser', user))
+        .then(() => commit('setLoginData', loginData))
+        .then(() => dispatch('authenticate'))
+        .then(() => commit('setJwt', state.jwt))
+        .then(() => commit('setSignupData', null))
+        .then(resolve)
+        .catch((error) => {
+          const message = (error && error.message) ? error.message : error;
+          commit('setSignupData', { loading: false, error: message });
+          reject(error);
+        });
+    });
+  }
+
+  function logout ({ commit }) {
+    commit('setJwt', null);
+    return Promise.resolve(commit('setUser', null));
   }
 }
 
@@ -42,6 +118,7 @@ function intitialState () {
       loading: false
     },
     signupData: {
+      name: '',
       email: '',
       password: '',
       error: null,

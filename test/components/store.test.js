@@ -12,6 +12,7 @@ const DEFAULT_STATE = {
     loading: false
   },
   signupData: {
+    name: '',
     email: '',
     password: '',
     error: null,
@@ -21,7 +22,7 @@ const DEFAULT_STATE = {
 const USER_DATA = {
   name: 'Sergio Marin',
   email: 'higher.vnf@gmail.com',
-  pasword: 'supersecreto'
+  password: 'supersecreto'
 };
 const TOKEN = 'TOKEN_MOCK';
 const storeMock = AuthStore.default(
@@ -51,14 +52,15 @@ const storeMock = AuthStore.default(
   }
 );
 
-function factoryCommit (state) {
+function factoryCommitDispacth (state) {
+  const commit = (type, payload) => storeMock.mutations[type](state, payload);
   return {
-    commit (type, payload) {
-      return storeMock.mutations[type](state, payload);
+    commit,
+    dispatch (type, payload) {
+      return storeMock.actions[type]({ commit, state }, payload);
     }
   };
 }
-
 
 test('factory need two functions', t => {
   const error = t.throws(() => {
@@ -103,99 +105,111 @@ test('mutate signupData', t => {
 
 test('clear jwt', t => {
   const state = storeMock.state();
-  storeMock.mutations.clearJwt(state);
+  storeMock.mutations.setJwt(state, null);
   t.is(state.jwt, DEFAULT_STATE.jwt);
 });
 
 test('clear user', t => {
   const state = storeMock.state();
-  storeMock.mutations.clearUser(state);
+  storeMock.mutations.setUser(state, null);
   t.deepEqual(state.user, DEFAULT_STATE.user);
 });
 
 test('clear loginData', t => {
   const state = storeMock.state();
-  storeMock.mutations.clearLoginData(state);
+  storeMock.mutations.setLoginData(state, null);
   t.deepEqual(state.loginData, DEFAULT_STATE.loginData);
 });
 
 test('clear signupData', t => {
   const state = storeMock.state();
-  storeMock.mutations.clearSignupData(state);
+  storeMock.mutations.setSignupData(state, null);
   t.deepEqual(state.signupData, DEFAULT_STATE.signupData);
 });
 
-test('actions -> authenticate wrong', t => {
+test('actions -> authenticate wrong', async t => {
   const state = storeMock.state();
-  const commit = factoryCommit(state);
+  const { commit, dispatch } = factoryCommitDispacth(state);
   state.loginData.email = 'invalid@email.com';
   state.loginData.password = USER_DATA.pasword;
 
-  storeMock.actions.authenticate({ commit, state });
-  t.is(state.jwt, '');
-  t.is(state.loginData.error, 'invalid email');
+  await storeMock.actions.authenticate({ commit, state, dispatch })
+    .catch(() => {
+      t.is(state.jwt, '');
+      t.is(state.loginData.error, 'invalid email');
+    });
 });
 
-test('actions -> authenticate ok', t => {
+test('actions -> authenticate ok', async t => {
   const state = storeMock.state();
-  const commit = factoryCommit(state);
+  const { commit, dispatch } = factoryCommitDispacth(state);
   state.loginData.email = USER_DATA.email;
   state.loginData.password = USER_DATA.pasword;
   
-  storeMock.actions.authenticate({ commit, state });
-  t.is(state.jwt, TOKEN);
-  t.is(state.loginData.error, null);
+  await storeMock.actions.authenticate({ commit, state, dispatch })
+    .then(() => {
+      t.is(state.jwt, TOKEN);
+      t.is(state.loginData.error, null);
+    });
 });
 
 test('actions -> logout', t => {
   const state = storeMock.state();
-  const commit = factoryCommit(state);
-  storeMock.actions.logout({ commit, state });
+  const { commit, dispatch } = factoryCommitDispacth(state);
+  storeMock.actions.logout({ commit, state, dispatch });
   t.is(state.jwt, '');
   t.deepEqual(state.user, DEFAULT_STATE.user);
 });
 
-test('actions -> createAccount wrong', t => {
+test('actions -> createAccount wrong', async t => {
   const state = storeMock.state();
-  const commit = factoryCommit(state);
+  const { commit, dispatch } = factoryCommitDispacth(state);
 
-  storeMock.actions.createAccount({ commit, state });
-  t.is(state.jwt, '');
-  t.is(state.signupData.error, 'you need name, email and password');
+  await storeMock.actions.createAccount({ commit, state, dispatch })
+    .catch(() => {
+      t.is(state.jwt, '');
+      t.is(state.signupData.error, 'you need name, email and password');
+    });
 });
 
-test('actions -> createAccount ok', t => {
+test('actions -> createAccount ok', async t => {
   const state = storeMock.state();
-  const commit = factoryCommit(state);
+  const { commit, dispatch } = factoryCommitDispacth(state);
 
-  state.createAccount.name = USER_DATA.name;
-  state.createAccount.email = USER_DATA.email;
-  state.createAccount.password = USER_DATA.pasword;
+  state.signupData.name = USER_DATA.name;
+  state.signupData.email = USER_DATA.email;
+  state.signupData.password = USER_DATA.password;
 
-  storeMock.actions.createAccount({ commit, state });
-  t.is(state.jwt, TOKEN);
-  t.deepEqual(state.user, {
-    ...USER_DATA,
-    user_id: 'user_id'
-  });
-  t.is(state.signupData.error, null);  
+  await storeMock.actions.createAccount({ commit, state, dispatch })
+    .then(() => {
+      t.is(state.jwt, TOKEN);
+      t.deepEqual(state.user, {
+        ...USER_DATA,
+        user_id: 'user_id'
+      });
+      t.is(state.signupData.error, null); 
+    });
 });
 
-test('actions -> setJwtAndGetUser', t => {
+test('actions -> setJwtAndGetUser', async t => {
   const state = storeMock.state();
-  const commit = factoryCommit(state);
-  storeMock.actions.setJwtAndGetUser({ commit, state }, TOKEN);
-  t.is(state.jwt, TOKEN);
-  t.deepEqual(state.user, {
-    ...USER_DATA,
-    user_id: 'user_id'
-  });
+  const { commit, dispatch } = factoryCommitDispacth(state);
+  await storeMock.actions.setJwtAndGetUser({ commit, state, dispatch }, TOKEN)
+    .then(() => {
+      t.is(state.jwt, TOKEN);
+      t.deepEqual(state.user, {
+        ...USER_DATA,
+        user_id: 'user_id'
+      });
+    });
 });
 
-test('actions -> setJwt', t => {
+test('actions -> setJwt', async t => {
   const state = storeMock.state();
-  const commit = factoryCommit(state);
-  storeMock.actions.updateJwt({ commit, state }, TOKEN);
-  t.is(state.jwt, TOKEN);
-  t.deepEqual(state.user, {});
+  const { commit, dispatch } = factoryCommitDispacth(state);
+  await storeMock.actions.updateJwt({ commit, state, dispatch }, TOKEN)
+    .then(() => {
+      t.is(state.jwt, TOKEN);
+      t.deepEqual(state.user, {});
+    });
 });
