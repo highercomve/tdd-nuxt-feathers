@@ -20,7 +20,11 @@ function mapValueToStore (obj, field) {
   return obj;
 }
 export default {
-  props: ['']
+  props: {
+    storeNamespace: {
+      type: String
+    }
+  }
 }
 </script>
 <style src="./styles.scss"></style>
