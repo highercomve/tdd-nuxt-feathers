@@ -26,8 +26,26 @@ export default function factory (loginFunc , signupFunc, getProfileFunc) {
   return {
     plugins: [],
     state: intitialState,
-    actions: {},
+    actions: {
+      authenticate,
+      updateJwt
+    },
     mutations: {},
     getters: {}
   };
+
+  function authenticate ({ commit, state }) {
+    return loginFunc(state.loginData.email, state.loginData.password)
+      .then((jwt) => {
+        commit('setLoginData', intitialState().loginData);
+        return commit('setJwt', jwt);
+      })
+      .catch((error) => {
+        commit('setLoginData', { error: error.message || error });
+      });
+  }
+  
+  function updateJwt ({ commit }, token) {
+    return Promise.resolve(commit('setJwt', token));
+  }
 }

@@ -195,7 +195,7 @@ test('actions -> setJwtAndGetUser', t => {
 test('actions -> setJwt', t => {
   const state = storeMock.state();
   const commit = factoryCommit(state);
-  storeMock.actions.setJwt({ commit, state }, TOKEN);
+  storeMock.actions.updateJwt({ commit, state }, TOKEN);
   t.is(state.jwt, TOKEN);
   t.deepEqual(state.user, {});
 });
