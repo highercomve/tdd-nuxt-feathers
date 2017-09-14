@@ -1,27 +1,8 @@
-const intitialState = () => {
-  return Object.assign({}, {
-    jwt: '',
-    user: {},
-    loginData: {
-      email: '',
-      password: '',
-      error: null,
-      loading: false
-    },
-    signupData: {
-      email: '',
-      password: '',
-      error: null,
-      loading: false
-    }
-  });
-};
-
-const ERROR_INVALID_PARAMETERS_ON_FACOTRY = 'The store factory need add login function, signup function and getProfile function';
+const ERROR_INVALID_PARAMETERS_ON_FACTORY = 'The store factory need add login function, signup function and getProfile function';
 
 export default function factory (loginFunc , signupFunc, getProfileFunc) {
   if (typeof loginFunc !== 'function' || typeof signupFunc !== 'function' || typeof getProfileFunc !== 'function') {
-    throw new Error(ERROR_INVALID_PARAMETERS_ON_FACOTRY);
+    throw new Error(ERROR_INVALID_PARAMETERS_ON_FACTORY);
   }
   return {
     plugins: [],
@@ -48,4 +29,23 @@ export default function factory (loginFunc , signupFunc, getProfileFunc) {
   function updateJwt ({ commit }, token) {
     return Promise.resolve(commit('setJwt', token));
   }
+}
+
+function intitialState () {
+  return Object.assign({}, {
+    jwt: '',
+    user: {},
+    loginData: {
+      email: '',
+      password: '',
+      error: null,
+      loading: false
+    },
+    signupData: {
+      email: '',
+      password: '',
+      error: null,
+      loading: false
+    }
+  });
 }

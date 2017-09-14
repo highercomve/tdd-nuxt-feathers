@@ -1,7 +1,7 @@
 import test from 'ava';
 import * as AuthStore from '../../src/components/store.babel';
 
-const ERROR_INVALID_PARAMETERS_ON_FACOTRY = 'The store factory need add login function, signup function and getProfile function';
+const ERROR_INVALID_PARAMETERS_ON_FACTORY = 'The store factory need add login function, signup function and getProfile function';
 const DEFAULT_STATE = {
   jwt: '',
   user: {},
@@ -64,7 +64,7 @@ test('factory need two functions', t => {
   const error = t.throws(() => {
     AuthStore.default();
   });
-  t.is(error.message, ERROR_INVALID_PARAMETERS_ON_FACOTRY);
+  t.is(error.message, ERROR_INVALID_PARAMETERS_ON_FACTORY);
 });
 
 test('factory works ', t => {
